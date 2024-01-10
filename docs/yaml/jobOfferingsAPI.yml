@@ -1,0 +1,150 @@
+openapi: 3.1.0
+info:
+  title: Job Offering API
+  description: REST API for job offerings.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /jobOfferings:
+    post:
+      operationId: create-job-requirement
+      description: Create a new job requirement to offer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobOffering"
+      responses:
+        '201':
+          description: Successful creation of a new job offering.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobOffering"
+        '400':
+          description: Bad Request. Invalid input data.
+    get:
+      operationId: get-job-offering
+      description: Retrieve details of a specific job offering.
+      parameters:
+        - name: jobId
+          in: query
+          required: false
+          description: ID of the job offering to retrieve.
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: false
+          description: Filter by job title.
+          schema:
+            type: string
+        - name: salary
+          in: query
+          required: false
+          description: Filter by job salary.
+          schema:
+            type: number
+        - name: experience
+          in: query
+          required: false
+          description: Filter by job experience.
+          schema:
+           type: string
+        - name: skill
+          in: query
+          required: false
+          description: Filter by skills.
+          schema:
+           type: string
+      responses:
+        '200':
+          description: Successful retrieval of job offering details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobOffering"
+        '404':
+          description: Job Offering not found.
+    put:
+      operationId: update-job-offering
+      description: Update details of a job requirements for the offering using job id.
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          description: ID of the job offering to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobOffering"
+      responses:
+        '200':
+          description: Successful update of job offering details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobOffering"
+        '404':
+          description: Job Offering not found.
+        '400':
+          description: Bad Request. Invalid input data.
+    delete:
+      operationId: delete-job-offering
+      description: Delete the job requirements for the offering using job id.
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          description: ID of the job offering to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful deletion of the job offering.
+        '404':
+          description: Job Offering not found.
+components:
+  schemas:
+    JobOffering:
+      type: object
+      properties:
+        jobId:
+          type: string
+          description: Unique identifier for the job offering.
+        title:
+          type: string
+          description: Title of the job offering.
+          example: Senior Software Engineer.
+        description:
+          type: string
+          description: Description of the job offering.
+          example: Exciting opportunity to join our software development team.
+        salary:
+          type: number
+          description: Salary for the job offering.
+          example: 80000
+        requirements:
+          type: string
+          description: Qualifications and requirements for the job offering.
+          example: Master's degree in Computer Science, 5+ years of experience.
+        location:
+          type: string
+          description: Location of the job.
+          example: San Francisco, CA
+        deadline:
+          type: string
+          format: date
+          description: Deadline for applying to the job.
+          example: 2023-12-31
+        contactEmail:
+          type: string
+          format: email
+          description: Email address for job application inquiries.
+          example: hr@example.com

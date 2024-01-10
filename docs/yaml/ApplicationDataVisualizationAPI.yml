@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: Application Data Visualization API
+  description: REST API for visualizing application data.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /applicationStats:
+    get:
+      operationId: get-application-stats
+      description: Retrieve statistics on the number of applications for different job IDs by a specific recruiter.
+      parameters:
+        - name: recruiterId
+          in: query
+          required: true
+          description: ID of the recruiter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval of application statistics.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: ID of the job.
+                    example:jobId: JD123
+                  applications:
+                    type: array
+                    description: List of applications for the job.
+                    items:
+                      $ref: "#/components/schemas/JobApplication"
+                example:
+                  - jobId: abc123
+                    applications:
+                      - applicationId: app1
+                        candidateId: candidate1
+                      - applicationId: app2
+                        candidateId: candidate2
+                  - jobId: xyz789
+                    applications:
+                      - applicationId: app3
+                        candidateId: candidate3
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    JobApplication:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          description: ID of the application.
+          examples: 
+            - "AP1234"
+        candidateId:
+          type: string
+          description: ID of the candidate.
+          examples: 
+            - "CD1234"
+        jobId:
+          type: string
+          description: ID of the Job. 
+          examples: 
+            - "JD1234" 
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+          examples:
+            - "401"
+        message:
+          type: string
+          description: Error message.
+          examples:
+            - "Unauthorized"

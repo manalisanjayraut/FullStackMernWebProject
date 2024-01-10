@@ -1,0 +1,323 @@
+openapi: 3.1.0
+info:
+  title: User Profile API
+  description: REST API for user profiles (candidates and recruiters).
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /users:
+    post:
+      operationId: create-user-profile
+      description: Create a new user profile (candidate or recruiter).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfile"
+      responses:
+        '201':
+          description: Successful creation of a user profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        '400':
+            description: Bad Request.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        '401':
+              description: Unauthorized Request.
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Error"
+        '403':
+              description: Forbidden. The authenticated user does not have the necessary permissions.
+              content:
+               application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict. A resource with the given information already exists.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userId}:
+    get:
+      operationId: get-user-profile
+      description: Retrieve user profile details.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: ID of the user profile to retrieve.
+        schema:
+          type: string
+      - name: experience
+        in: query
+        description: Filter by experience title.
+        schema:
+          type: string
+      - name: skills
+        in: query
+        description: Filter by skills.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+       '200':
+          description: Successful retrieval of user profile details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+       '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+       '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+       '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+       '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: update-user-profile
+      description: Update an existing user profile.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user profile to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfile"
+      responses:
+        '200':
+          description: Successful update of user profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: delete-user-profile
+      description: Delete an existing user profile.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user profile to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful deletion of user profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user profile.
+          examples:
+           - "12345"
+        name:
+          type: string
+          description: User's full name.
+          examples:
+           - "John Doe"
+        email:
+          type: string
+          description: User's email address.
+          examples:
+           - "john.doe@example.com"
+        phone:
+          type: integer
+          description: User's phone number.
+          examples:
+            - 1234567890
+        Skills:
+          type: array
+          description: User's skill.
+          examples:
+            - "Java"
+            - "JavaScript"
+        Experience:
+          type: object
+          description: User's experience.
+          $ref: "#/components/schemas/Experience"
+        Education:
+          type: object
+          description: User's education.
+          examples:
+            - "Masters"
+          $ref: "#/components/schemas/Education"
+        profile-type:
+          type: string  
+          description: Specify user type. It can be candidate or recruiter.
+          examples:
+            - "Candidate"
+        resume:
+          type: string
+          description: User resume
+          examples:
+             - "/path/to/resume.pdf"
+    Experience:
+      type: object
+      properties:
+        title:
+          type: string
+          description: User role.
+          examples:
+            - "Software Engineer"
+        company-name:
+          type: string
+          description: Company name.
+          examples:
+            - "Honeywell"
+        employment-type:
+          type: string
+          description: Type of Employment
+          examples:
+            - "Full-time"
+        start-date:
+          type: string
+          description: start date of employment
+          examples:
+            - "2022-06-06"
+        end-date:
+          type: string
+          description: end date of employment
+          examples:
+            - "2023-06-06"
+        location:
+          type: string
+          description: Location of job
+          examples:
+            - "Boston"
+        responsibilities:
+          type: string
+          description: Job responsibilities
+          examples:
+            - "Developing and maintaining software applications."
+            - "Collaborating with cross-functional teams to deliver high-quality software."
+    Education:
+      type: object
+      properties:
+        university-name:
+          type: string
+          description: University Name.
+          examples:
+            - "Northeastern University"
+        course-name:
+          type: string
+          description: Course name.
+          examples:
+            -  "Computer Science"
+        start-date:
+          type: string
+          description: start date of academic year
+          examples:
+            -  "2019-05-01"
+        end-date:
+          type: string
+          description: end date of academic year
+          examples:
+            -  "2020-05-01"
+    Error:
+       type: object  
+       properties:
+        code:
+          type: string
+          description: Error message
+          examples:
+            - Authentiction error
+        message:
+          type: string
+          description: Error message
+          examples:
+            - User is not authenticated

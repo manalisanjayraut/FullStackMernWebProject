@@ -1,0 +1,172 @@
+openapi: 3.1.0
+info:
+  title: User Authentication API
+  description: REST API for user authentication and CRUD operations.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /login:
+    post:
+      operationId: user-login
+      description: Login to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAuthentication"
+      responses:
+        '200':
+          description: Successful login.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        '401':
+          description: Unauthorized. Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    UserAuthentication:
+      type: object
+      properties:
+        username:
+          type: string
+          description: User's username.
+          examples: 
+            - "SuperUser"
+        password:
+          type: string
+          description: User's password.
+          examples: 
+            - "12345"
+
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user profile.
+          examples: 
+            - "12345"
+        name:
+          type: string
+          description: User's full name.
+          examples: 
+            - "John Doe"
+        email:
+          type: string
+          description: User's email address.
+          examples: 
+            - "john.doe@example.com"
+        phone:
+          type: integer
+          description: User's phone number.
+          examples: 
+            - 1234567890
+        Skills:
+          type: array
+          description: User's skill.
+          examples:
+            - "Java"
+            - "JavaScript"
+        Experience:
+          type: object
+          description: User's experience.
+          $ref: "#/components/schemas/Experience"
+        Education:
+          type: object
+          description: User's education.
+          $ref: "#/components/schemas/Education"
+        profile-type:
+          type: string
+          description: Specify user type. It can be candidate or recruiter.
+          examples:
+            - "candidate"
+        resume:
+          type: string
+          description: User resume
+          examples: 
+            - "/path/to/resume.pdf"
+
+    Experience:
+      type: object
+      properties:
+        title:
+          type: string
+          description: User role.
+          examples: 
+            - "Software Engineer"
+        company-name:
+          type: string
+          description: Company name.
+          examples:
+            - "XYZ Tech"
+        employment-type:
+          type: string
+          description: Type of Employment
+          examples: 
+            - "Full-time"
+        start-date:
+          type: string
+          description: start date of employment
+          examples:
+            -  "2020-01-01"
+        end-date:
+          type: string
+          description: end date of employment
+          examples:
+            -  "2022-01-01"
+        location:
+          type: string
+          description: Location of job
+          examples: 
+            - "City, Country"
+        responsibilities:
+          type: string
+          description: Job responsibilities
+          examples:
+            - "Developing and maintaining software applications."
+            - "Collaborating with cross-functional teams to deliver high-quality software."
+
+    Education:
+      type: object
+      properties:
+        university-name:
+          type: string
+          description: University Name.
+          examples: 
+            - "ABC University"
+        course-name:
+          type: string
+          description: Course name.
+          examples:
+            -  "Computer Science"
+        start-date:
+          type: string
+          description: start date of academic year
+          examples: 
+            - "2016-09-01"
+        end-date:
+          type: string
+          description: end date of academic year
+          examples:
+            -  "2020-05-01"
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+          examples:
+            -  "401"
+        message:
+          type: string
+          description: Error message.
+          examples: 
+            -  "Unauthorized"

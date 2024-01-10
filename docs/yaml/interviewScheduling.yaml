@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Interview Scheduling API
+  description: REST API for interview scheduling.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /interviews:
+    post:
+      operationId: schedule-interview
+      description: Schedule a new interview.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Interview"
+      responses:
+        '201':
+          description: Successful scheduling of a new interview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        '400':
+            description: Bad Request.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        '401':
+              description: Unauthorized Request.
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Error"
+        '403':
+              description: Forbidden. The authenticated user does not have the necessary permissions.
+              content:
+               application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict. A resource with the given information already exists.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      operationId: get-interviews
+      description: Retrieve the list of interviews.
+      responses:
+        '200':
+          description: Successful retrieval of interviews.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interview"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /interviews/{interviewId}:
+    get:
+      operationId: get-interview
+      description: Retrieve details of a specific interview.
+      parameters:
+        - name: interviewId
+          in: path
+          required: true
+          description: ID of the interview to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval of interview details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: update-interview
+      description: Update details of an interview.
+      parameters:
+        - name: interviewId
+          in: path
+          required: true
+          description: ID of the interview to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Interview"
+      responses:
+        '200':
+          description: Successful update of interview details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: cancel-interview
+      description: Cancel an interview.
+      parameters:
+        - name: interviewId
+          in: path
+          required: true
+          description: ID of the interview to cancel.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful cancellation of the interview.
+        '404':
+          description: Not Found. The requested resource does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden. The authenticated user does not have the necessary permissions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Interview:
+      type: object
+      properties:
+        interviewId:
+          type: string
+          description: Unique identifier for the interview.
+        candidateId:
+          type: string
+          description: ID of the candidate participating in the interview.
+        jobId:
+          type: string
+          description: ID of the job for which the interview is scheduled.
+        dateTime:
+          type: string
+          format: date-time
+          description: Date and time of the interview.
+        location:
+          type: string
+          description: Location of the interview.
+    Error:
+          type: object  
+          
+          

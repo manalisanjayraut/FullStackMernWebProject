@@ -1,0 +1,18 @@
+{
+    "Job.label.Id":"Job Id",
+    "Job.label.JobName":"Job Name",
+    "Job.label.JobCategory":"Job Category",
+    "Job.label.User":"User",
+    "Job.label.Available":"Available",
+    "Job.label.Salary":"Salary",
+    "Job.label.Actions":"Actions",
+    "Job.label.Edit":"Edit",
+    "Job.label.Delete":"Delete",
+    "JobApplicant.lable.ApplicationId":"Application ID",
+    "JobApplicant.lable.CandidateId": "Candidate Name",
+    "JobApplicant.lable.createdAt": "Creation Date",
+    "JobApplicant.lable.title":"All Applied Candidates",
+    "JobApplicant.lable.scheduleInteview":"Schedule Interview",
+    "Job.log.CREATEJOB": "CREATE JOB",
+    "Job.log.Jobslist": "Jobs list"
+}

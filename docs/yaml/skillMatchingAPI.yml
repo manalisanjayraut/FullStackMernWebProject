@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Job Offering API
+  description: REST API for job offerings.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /skillMatching:
+    get:
+      summary: Get job opportunities based on skill matching
+      operationId: get-skill-matching-opportunities
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          description: ID of the user seeking job opportunities based on skills.
+          schema:
+            type: string
+        - name: skills
+          in: query
+          required: true
+          description: Comma-separated list of skills possessed by the user.
+          schema:
+            type: string
+        - name: jobId
+          in: query
+          required: true
+          description: ID of the specific job opportunity (optional).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval of skill-matching job opportunities.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobOpportunityListWithCompatibility"
+        '404':
+          description: No matching job opportunities found.
+
+components:
+  schemas:
+    JobOpportunityListWithCompatibility:
+      type: object
+      properties:
+        opportunities:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobOpportunityWithCompatibility"
+
+    JobOpportunityWithCompatibility:
+      type: object
+      properties:
+        jobId:
+          type: string
+          description: Unique identifier for the job opportunity.
+        title:
+          type: string
+          description: Title of the job opportunity.
+        description:
+          type: string
+          description: Description of the job opportunity.
+        salary:
+          type: number
+          description: Salary for the job opportunity.
+        requirements:
+          type: string
+          description: Qualifications and requirements for the job opportunity.
+        compatibility:
+          type: number
+          format: percentage
+          description: Percentage of compatibility between the job and candidate skills.

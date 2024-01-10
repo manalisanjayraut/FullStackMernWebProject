@@ -1,0 +1,20 @@
+{
+    "Job.label.Id": "काम आईडी",
+    "Job.label.JobName": "काम का नाम",
+    "Job.label.JobCategory": "काम का वर्ग",
+    "Job.label.User": "उपयोगकर्ता",
+    "Job.label.Available": "उपलब्ध",
+    "Job.label.Salary": "वेतन",
+    "Job.label.Actions": "क्रियाएँ",
+    "Job.label.Edit": "संपादित करें",
+    "Job.label.Delete": "हटाएं",
+    "JobApplicant.lable.ApplicationId": "आवेदन आईडी",
+    "JobApplicant.lable.CandidateId": "उम्मीदवार का नाम",
+    "JobApplicant.lable.createdAt": "बनाया गया",
+    "JobApplicant.lable.title":"सभी लागू उम्मीदवार",
+    "JobApplicant.lable.scheduleInteview":"साक्षात्कार की तिथि तय करें",
+    "Job.log.CREATEJOB": "नौकरी बनाएं",
+    "Job.log.Jobslist": "नौकरियां की सूची",
+    "Job.log.Rowsperpage:": "पंक्तियां प्रति पृष्ठ:"
+    
+}

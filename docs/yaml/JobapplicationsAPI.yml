@@ -1,0 +1,235 @@
+openapi: 3.1.0
+info:
+  title: Job Application API
+  description: REST API for job applications.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:8080
+paths:
+  /applications:
+    post:
+      operationId: apply-for-job
+      description: Apply for a job.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobApplication"
+      responses:
+        '201':
+          description: Successful application for the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobApplication"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      operationId: get-job-applications
+      description: Retrieve the list of job applications for a candidate.
+      responses:
+        '200':
+          description: Successful retrieval of job applications.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobApplication"
+        '401':
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /applications/{applicationId}:
+    get:
+      operationId: get-job-application
+      description: Retrieve details of a specific job application.
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          description: ID of the job application to retrieve.
+          example: "A11"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval of job application details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobApplication"
+        '401':
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: update-job-application
+      description: Update the status of a job application.
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          description: ID of the job application to update.
+          example: "A11"
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobApplication"
+      responses:
+        '200':
+          description: Successful update of job application status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobApplication"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: withdraw-job-application
+      description: Withdraw a job application.
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          description: ID of the job application to withdraw.
+          example: "A11"
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful withdrawal of job application.
+        '401':
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    JobApplication:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          description: Unique identifier for the job application.
+          examples:
+            - "A11"
+        jobId:
+          type: string
+          description: ID of the job being applied for.
+          examples:
+            - "J01"
+        candidateId:
+          type: string
+          description: ID of the candidate applying for the job.
+          examples:
+            - "C01"
+        status:
+          type: string
+          description: Current status of the job application.
+          examples:
+            - "Interviewing"
+    Error:
+      type: object   
+      properties:
+        code:
+          type: string
+          description: Error code
+          examples:
+            - "400"
+        message:
+          type: string
+          description: Error message
+          examples:
+            - "Bad Request"

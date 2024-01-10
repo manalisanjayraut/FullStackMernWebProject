@@ -1,0 +1,25 @@
+{
+  "name": "final-project-mind-benders",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r  <img width=\"98\" alt=\"image\" src=\"https://github.com/manalisanjayraut/test/assets/144759989/0c6f6906-b23f-49d1-b964-5a5ca9d53755\">\r </p>",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "express": "^4.18.2",
+    "i18next": "^23.7.9",
+    "i18next-http-backend": "^2.4.2",
+    "mongoose": "^8.0.1",
+    "react-i18next": "^13.5.0"
+  }
+}
